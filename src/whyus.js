@@ -41,15 +41,16 @@ const WhyChooseUs = () => {
                 secondtick: editedValues[1],
                 thirdtick: editedValues[2],
             };
-
-            const response = await fetch('http://localhost:5000/', {
+            console.log(schema);
+            console.log(JSON.stringify(schema));
+            const response = await fetch('http://localhost:5000/batoul/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(schema),
             });
-
+            console.log(response);
             if (response.ok) {
                 console.log('Data saved successfully.');
             } else {
