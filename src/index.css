@@ -1,13 +1,92 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* MenuAndContent.css */
+.menu-and-content {
+  display: flex;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.menu {
+  width: 200px;
+  background: #333;
+  color: #fff;
+}
+
+.menu-content {
+  padding: 20px;
+}
+
+.menu-item {
+  padding: 10px 0;
+}
+
+.content {
+  flex: 1;
+  padding-left: 20px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  background-color: #555;
+}
+
+
+
+.menu-item:focus {
+  outline: 0;
+  border-color: #2260ff;
+  box-shadow: 0 0 0 4px #b5c9fc;
+}
+
+.m-why {
+  display: flex;
+}
+
+.content-why {
+  display: flex;
+}
+
+.left-why {
+  width: 50%;
+}
+
+.svg-why img {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.frst-svg-why {
+  padding-top: 9px;
+  padding-right: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+}
+
+.scnd-svg-why {
+  padding-top: 20px;
+  padding-right: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+}
+
+.thrd-svg-why {
+  padding-top: 17px;
+  padding-right: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+}
+
+.list-why {
+  margin-top: -10px;
+}
+
+.list-why ul {
+  list-style: none;
+  padding: 0px;
+}
+
+.right-circle {
+  border-radius: 200px;
 }
