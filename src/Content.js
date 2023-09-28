@@ -4,7 +4,8 @@ import Bestservices from './bestservices';
 import Whyus from './whyus';
 import './index.css';
 function MenuAndContent() {
-    const [activePage, setActivePage] = useState('hero'); // Initial active page
+    const [activePage, setActivePage] = useState('hero');
+    // Initial active page
 
     const handleMenuClick = (page) => {
         setActivePage(page);
@@ -47,7 +48,7 @@ function MenuAndContent() {
                 </div>
             </div>
             <div id="content" style={{ flex: 1, paddingLeft: '20px' }}>
-                <h2>Welcome Mr.Rizk !</h2>
+                {/* <h2>Welcome Mr.Rizk !</h2> */}
                 {activePage === 'hero' && <Hero />}
                 {activePage === 'bestservices' && <Bestservices />}
                 {activePage === 'whyus' && <Whyus />}
