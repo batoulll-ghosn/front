@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Hero from './hero';
 import Bestservices from './bestservices';
 import Whyus from './whyus';
+import Experience from './components/experience'
+
 import './index.css';
 function MenuAndContent() {
     const [activePage, setActivePage] = useState('hero'); // Initial active page
@@ -24,7 +26,7 @@ function MenuAndContent() {
                         <a href="#whyus" onClick={() => handleMenuClick('whyus')}>Why Choose Us?</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#experience" >Experience</a>
+                        <a href="#experience" onClick={() => handleMenuClick('experience')} >Experience</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
                         <a href="#latestblog" >Latest Blog</a>
@@ -51,9 +53,10 @@ function MenuAndContent() {
                 {activePage === 'hero' && <Hero />}
                 {activePage === 'bestservices' && <Bestservices />}
                 {activePage === 'whyus' && <Whyus />}
-
+                {activePage === 'experience' && <Experience />}
             </div>
-        </div>
+
+        </div >
     );
 }
 

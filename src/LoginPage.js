@@ -1,42 +1,87 @@
 import React, { useState } from 'react';
-import Content from './Content'; // Import the MenuAndContent component
+import { useNavigate } from 'react-router-dom';
+import './loginStyle.css';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [error, setError] = useState('');
+    const [login, setLogin] = useState('Login');
+    const [userName, setUserName] = useState('Welcome Back');
+    const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // In a real application, you would send a request to your backend for authentication.
-        // For this example, we'll simply check if email and password match a hardcoded value.
-        if (email === 'user@example.com' && password === 'password') {
-            setIsLoggedIn(true);
-        } else {
-            alert('Invalid email or password. Please try again.');
+    const isEmailValid = (email) => {
+        const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        return emailPattern.test(email);
+    };
+
+    const checkLogin = async () => {
+        if (!isEmailValid(email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
+        if (!password) {
+            setError('Please enter a password.');
+            return;
+        }
+
+        try {
+            const loginUrl = 'http://localhost:5000/user/login';
+
+            const response = await fetch(loginUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    navigate('./Content');
+                } else {
+                    setError('Invalid email or password. Please try again.');
+                }
+            } else {
+                setError('An error occurred. Please try again later.');
+            }
+        } catch (error) {
+            setError('An error occurred. Please try again later.');
         }
     };
 
-    if (isLoggedIn) {
-        // If the user is logged in, render the MenuAndContent component.
-        return <Content />;
-    }
+    const handleLoginClick = async () => {
+        await checkLogin();
+    };
+
 
     return (
-        <div className="login-page">
-            <h2>Login Page</h2>
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={handleLogin}>Login</button>
+        <div className="container">
+            <h1 className="login-title">{login}</h1>
+            <h2 className="login-sub-title">{userName}</h2>
+            <div className="input">
+                <input
+                    type="text"
+                    placeholder="Email"
+                    value={email}
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
+            <div className="input">
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <button onClick={handleLoginClick} className="submit-btn">
+                Login
+            </button>
         </div>
     );
 }
