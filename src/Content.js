@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Hero from './hero';
 import Bestservices from './bestservices';
 import Whyus from './whyus';
+import ContactYou from './contactyou';
+import ContactShape from './contactShape';
+import Blog from './blog';
+import Project from './project';
 import './index.css';
 function MenuAndContent() {
     const [activePage, setActivePage] = useState('hero'); // Initial active page
@@ -27,19 +31,19 @@ function MenuAndContent() {
                         <a href="#experience" >Experience</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#latestblog" >Latest Blog</a>
+                        <a href="#blog" onClick={() => handleMenuClick('blog')} >Latest Blog</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#projects" >Projects</a>
+                        <a href="#project" onClick={() => handleMenuClick('project')} >Projects</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
                         <a href="#footer" >Footer</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#contact" >Contact Us </a>
+                        <a href="#contact" onClick={() => handleMenuClick('contactShape')} >Contact Us </a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#page9" >Page 9</a>
+                        <a href="#contactyou" onClick={() => handleMenuClick('contactyou')} >People who contacted you!</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
                         <a href="#page10" >Page 10</a>
@@ -51,7 +55,10 @@ function MenuAndContent() {
                 {activePage === 'hero' && <Hero />}
                 {activePage === 'bestservices' && <Bestservices />}
                 {activePage === 'whyus' && <Whyus />}
-
+                {activePage === 'contactyou' && <ContactYou />}
+                {activePage === 'contactShape' && <ContactShape />}
+                {activePage === 'blog' && <Blog />}
+                {activePage === 'project' && <Project />}
             </div>
         </div>
     );
