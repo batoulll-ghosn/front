@@ -2,79 +2,61 @@ import React, { useEffect, useState } from 'react';
 import './Footer1.css';
 
 const Footer1 = () => {
-    const [footerData, setFooterData] = useState({});
+    const [footerData, setFooterData] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const [updatedData, setUpdatedData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [updatedData, setUpdatedData] = useState({}); // Store the updated data locally before sending it to the server
 
     useEffect(() => {
-        // Fetch data from the server when the component mounts
-        async function fetchData() {
-            try {
-                const response = await fetch('http://localhost:5000/footer/getfooter'); // Replace with your API endpoint
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.data && result.data.length > 0) {
-                        setFooterData(result.data[0]);
-                        setUpdatedData(result.data[0]);
-                    }
-                    setIsLoading(false);
-                } else {
-                    console.error('Failed to fetch data from the server.');
-                }
-            } catch (error) {
+        // Fetch data from the API
+        fetch('http://localhost:5000/footer/getfooter')
+            .then((response) => response.json())
+            .then((data) => {
+                // Set the fetched data to the state
+                setFooterData(data.data);
+            })
+            .catch((error) => {
                 console.error('Error fetching data:', error);
-            }
-        }
-        fetchData();
+            });
     }, []);
 
     const handleEdit = () => {
+        if (!editMode) {
+            setUpdatedData({
+                address: footerData[0]?.address || '',
+                quater: footerData[0]?.quater || '',
+                ophone: footerData[0]?.ophone || '',
+                mobilephone: footerData[0]?.mobilephone || '',
+            });
+        }
         setEditMode(!editMode);
+    };
+
+    const handleSave = () => {
+        // Update the local data with the edited values
+        setFooterData([updatedData]);
+
+        // Update the database with the edited data
+        fetch(`http://localhost:5000/footer/update/${footerData[0]._id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the local data with the edited values
+                setFooterData([data]);
+                setEditMode(false);
+            })
+            .catch((error) => {
+                console.error('Error updating data:', error);
+            });
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUpdatedData({ ...updatedData, [name]: value });
-    };
-
-    const handleSave = async () => {
-        // Send edited data back to the server when saving
-        try {
-            const response = await fetch(`http://localhost:5000/footer/update/${footerData._id}`, {
-                method: 'PUT', // Assuming you use PUT for updates
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedData),
-            });
-
-            if (response.ok) {
-                console.log('Data updated successfully.');
-
-                // Update the document in MongoDB with the same ID
-                const updateResponse = await fetch(`http://localhost:5000/footer/updateDocument/${footerData._id}`, {
-                    method: 'PUT', // Assuming you use PUT for updates
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedData),
-                });
-
-                if (updateResponse.ok) {
-                    console.log(`Document with ID ${footerData._id} updated in MongoDB.`);
-                } else {
-                    console.error('Failed to update document in MongoDB.');
-                }
-
-                setFooterData(updatedData); // Update displayed data
-            } else {
-                console.error('Failed to update data on the server.');
-            }
-        } catch (error) {
-            console.error('Error updating data:', error);
-        }
-        setEditMode(false); // Exit edit mode
     };
 
     return (
@@ -99,9 +81,9 @@ const Footer1 = () => {
                         </>
                     ) : (
                         <>
-                            <p style={{ color: 'white' }}>{footerData.address}, Lebanon</p>
+                            <p style={{ color: 'white' }}>{footerData[0]?.address}, Lebanon</p>
                             <p> Our Headquarters</p>
-                            <p style={{ color: 'white' }}>{footerData.quater}, U.A.E.</p>
+                            <p style={{ color: 'white' }}>{footerData[0]?.quater}, U.A.E.</p>
                         </>
                     )}
                 </div>
@@ -124,8 +106,8 @@ const Footer1 = () => {
                         </>
                     ) : (
                         <>
-                            <p style={{ color: 'white' }}>Office Phone: {footerData.ophone}</p>
-                            <p style={{ color: 'white' }}>Mobile Phone: {footerData.mobilephone}</p>
+                            <p style={{ color: 'white' }}>Office Phone: {footerData[0]?.ophone}</p>
+                            <p style={{ color: 'white' }}>Mobile Phone: {footerData[0]?.mobilephone}</p>
                         </>
                     )}
                 </div>

@@ -6,6 +6,7 @@ import ContactYou from './contactyou';
 import ContactShape from './contactShape';
 import Blog from './blog';
 import Project from './project';
+import Footer from './footer';
 import './index.css';
 function MenuAndContent() {
     const [activePage, setActivePage] = useState('hero'); // Initial active page
@@ -37,16 +38,13 @@ function MenuAndContent() {
                         <a href="#project" onClick={() => handleMenuClick('project')} >Projects</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
-                        <a href="#footer" >Footer</a>
+                        <a href="#footer" onClick={() => handleMenuClick('footer')} >Footer</a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
                         <a href="#contact" onClick={() => handleMenuClick('contactShape')} >Contact Us </a>
                     </div>
                     <div style={{ padding: '10px 0' }}>
                         <a href="#contactyou" onClick={() => handleMenuClick('contactyou')} >People who contacted you!</a>
-                    </div>
-                    <div style={{ padding: '10px 0' }}>
-                        <a href="#page10" >Page 10</a>
                     </div>
                 </div>
             </div>
@@ -59,6 +57,7 @@ function MenuAndContent() {
                 {activePage === 'contactShape' && <ContactShape />}
                 {activePage === 'blog' && <Blog />}
                 {activePage === 'project' && <Project />}
+                {activePage === 'footer' && <Footer />}
             </div>
         </div>
     );
